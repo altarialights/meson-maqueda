@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EventHero from '../../components/events/EventHero.astro';
+import EventGallery from '../../components/events/EventGallery.astro';
+import VentillaSection from '../../components/events/VentillaSection.astro';
+import EventInquiry from '../../components/events/EventInquiry.astro';
+import EventFaq from '../../components/events/EventFaq.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import { eventTypes, weddingTimeline, type EventType } from '../../data/events';
+import { restaurant } from '../../data/restaurant';
+export function getStaticPaths() { return eventTypes.map((event) => ({ params: { slug: event.slug }, props: { event } })); }
+interface Props { event: EventType }
+const { event } = Astro.props;
+const isWedding = event.slug === 'bodas';
+const isLight = event.slug === 'comuniones';
+---
+<BaseLayout title={event.seoTitle} description={event.seoDescription}>
+  <nav class="breadcrumbs shell" aria-label="Migas de pan"><a href="/">Inicio</a><span aria-hidden="true">/</span><a href="/eventos">Eventos</a><span aria-hidden="true">/</span><span aria-current="page">{event.name}</span></nav>
+  <EventHero eyebrow={event.eyebrow} title={event.title} intro={event.intro} tone={event.tone} fullscreen={isWedding} primaryLabel="Solicitar información" primaryHref="#consulta" />
+  <section class:list={['event-story section', `event-story--${event.tone}`]}><div class="shell event-story__grid"><div class="event-story__mark" data-reveal><span>{isWedding ? 'Sí' : 'LVE'}</span></div><div><SectionHeading eyebrow="La Ventilla del Escribano" title={isWedding ? 'Una celebración pensada desde vosotros' : event.title} /><p>{event.story}</p><ul>{event.focus.map((item) => <li>{item}</li>)}</ul></div></div></section>
+  <section class="event-details section section--dark"><div class="shell include-grid">{event.sections.map((section, index) => <article data-reveal><span>{String(index + 1).padStart(2, '0')}</span><h2>{section.title}</h2><p>{section.text}</p></article>)}</div></section>
+  <EventGallery light={isLight} title={isWedding ? 'Los momentos importantes merecen su propio escenario.' : 'Un entorno para reunirse y compartir.'} />
+  {isWedding && <section class="event-timeline section"><div class="shell"><SectionHeading eyebrow="Proceso de consulta" title="Del primer contacto a la celebración" /><div class="timeline">{weddingTimeline.map(([number,title,text]) => <article data-reveal><span>{number}</span><i></i><h3>{title}</h3><p>{text}</p></article>)}</div><p class="event-disclaimer">Consúltanos disponibilidad, opciones de menú, servicios y condiciones.</p></div></section>}
+  <VentillaSection compact />
+  <EventInquiry />
+  <EventFaq />
+  <a class="event-sticky-cta" href={`tel:${restaurant.phoneHref}`}>Solicitar información <span>por teléfono</span></a>
+  <script src="../../scripts/animations.ts"></script>
+</BaseLayout>

@@ -1,0 +1,4 @@
+---
+import { restaurant } from '../../data/restaurant';
+---
+<section class="event-inquiry section" id="consulta"><div class="shell inquiry-grid"><div><p class="eyebrow">Cuéntanos tu idea</p><h2>Empecemos por una conversación.</h2><p>Consulta por teléfono la disponibilidad y las posibilidades confirmadas para tu celebración.</p><a class="phone-display" href={`tel:${restaurant.phoneHref}`}>{restaurant.phoneDisplay}</a><a class="button button--gold" href={`tel:${restaurant.phoneHref}`}>Llamar para consultar</a></div><!-- TODO: añadir un formulario solo cuando exista un destino de recepción confirmado. --></div></section>

@@ -1,0 +1,41 @@
+:root {
+  color-scheme: light;
+
+  /* Paleta base */
+  --color-ivory: #F7F3EC;
+  --color-stone: #E7DED2;
+  --color-sand: #D7C5A2;
+  --color-old-gold: #B99557;
+  --color-bronze: #8E6A3A;
+  --color-cocoa: #4B3527;
+  --color-chocolate: #241813;
+  --color-charcoal: #171412;
+  --color-olive: #667053;
+  --color-burgundy: #6D2F36;
+
+  /* Tokens semánticos */
+  --color-background: var(--color-ivory);
+  --color-surface: var(--color-stone);
+  --color-surface-alt: var(--color-sand);
+  --color-surface-dark: var(--color-chocolate);
+  --color-surface-deep: var(--color-charcoal);
+  --color-card: color-mix(in srgb, var(--color-ivory) 92%, var(--color-sand));
+  --color-primary: var(--color-old-gold);
+  --color-primary-hover: color-mix(in srgb, var(--color-old-gold) 78%, var(--color-ivory));
+  --color-primary-strong: var(--color-bronze);
+  --color-accent: var(--color-olive);
+  --color-accent-warm: var(--color-burgundy);
+  --color-text: var(--color-charcoal);
+  --color-text-strong: var(--color-chocolate);
+  --color-text-muted: color-mix(in srgb, var(--color-cocoa) 72%, var(--color-stone));
+  --color-text-on-dark: var(--color-ivory);
+  --color-text-on-dark-muted: color-mix(in srgb, var(--color-ivory) 68%, var(--color-cocoa));
+  --color-border: color-mix(in srgb, var(--color-bronze) 28%, transparent);
+  --color-border-strong: color-mix(in srgb, var(--color-bronze) 52%, transparent);
+  --color-success: var(--color-olive);
+  --color-overlay: color-mix(in srgb, var(--color-chocolate) 76%, transparent);
+  --color-overlay-soft: color-mix(in srgb, var(--color-chocolate) 38%, transparent);
+  --color-shadow: color-mix(in srgb, var(--color-chocolate) 22%, transparent);
+  --color-shadow-strong: color-mix(in srgb, var(--color-charcoal) 38%, transparent);
+  --color-focus: var(--color-old-gold);
+}

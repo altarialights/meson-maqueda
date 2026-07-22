@@ -1,0 +1,11 @@
+---
+import type { MenuCategory as Category } from '../data/menu';
+interface Props { category: Category }
+const { category } = Astro.props;
+const renderDishes = (dishes: NonNullable<Category['dishes']>) => dishes;
+---
+<section class="menu-category" id={category.id} data-reveal>
+  <div class="menu-category__heading"><span>{category.name}</span><i></i><small>{category.note}</small></div>
+  {category.dishes && <div class="dish-list">{renderDishes(category.dishes).map((dish) => <article class="dish"><div><h3>{dish.name}{dish.featured && <span>Especialidad</span>}</h3>{dish.description && <p>{dish.description}</p>}</div><span class="dish-price">{dish.price}</span></article>)}</div>}
+  {category.groups?.map((group) => <div class="menu-group"><h2>{group.name}</h2><div class="dish-list">{group.dishes.map((dish) => <article class="dish"><div><h3>{dish.name}{dish.featured && <span>Especialidad</span>}</h3>{dish.description && <p>{dish.description}</p>}</div><span class="dish-price">{dish.price}</span></article>)}</div></div>)}
+</section>

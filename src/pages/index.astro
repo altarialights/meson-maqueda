@@ -1,17 +1,114 @@
 ---
-
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CurvedDivider from '../components/CurvedDivider.astro';
+import { restaurant } from '../data/restaurant';
 ---
+<BaseLayout title="Mesón Castellano Maqueda | Casa fundada en 1959" description="Mesón Castellano en Maqueda. Cocina castellana, celebraciones y eventos desde 1959.">
+  <section class="reference-hero" aria-labelledby="hero-title">
+    <img class="reference-hero__image" src="/hero.png" alt="Salón real de Mesón Castellano preparado para una celebración" width="1717" height="916" fetchpriority="high" decoding="async" />
+    <div class="reference-hero__shade" aria-hidden="true"></div>
+    <div class="reference-hero__content" data-hero>
+      <h1 id="hero-title" class="sr-only">Mesón Castellano</h1>
+      <div class="hero-signature" aria-hidden="true">
+        <svg viewBox="0 0 1400 280" role="presentation" focusable="false">
+          <defs>
+            <linearGradient id="signature-pearl" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#ffffff" />
+              <stop offset="0.52" stop-color="#fbfcfd" />
+              <stop offset="1" stop-color="#e7ebee" />
+            </linearGradient>
+            <linearGradient id="signature-light" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#ffffff" stop-opacity="0" />
+              <stop offset="0.48" stop-color="#ffffff" stop-opacity="0" />
+              <stop offset="0.5" stop-color="#ffffff" stop-opacity="0.82" />
+              <stop offset="0.52" stop-color="#ffffff" stop-opacity="0" />
+              <stop offset="1" stop-color="#ffffff" stop-opacity="0" />
+            </linearGradient>
+            <filter id="signature-shadow" x="-8%" y="-20%" width="116%" height="150%">
+              <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#000000" flood-opacity="0.72" />
+            </filter>
+            <clipPath id="signature-letters">
+              <text class="hero-signature__text" x="700" y="205" text-anchor="middle">Mesón Castellano</text>
+            </clipPath>
+          </defs>
+          <g filter="url(#signature-shadow)">
+            <text class="hero-signature__trace" x="700" y="205" text-anchor="middle">Mesón Castellano</text>
+            <text class="hero-signature__fill" x="700" y="205" text-anchor="middle">Mesón Castellano</text>
+          </g>
+          <g clip-path="url(#signature-letters)">
+            <rect class="hero-signature__shine" x="-1500" y="0" width="1500" height="280" fill="url(#signature-light)" />
+          </g>
+          <circle class="hero-signature__nib" cx="85" cy="170" r="2.4" />
+        </svg>
+      </div>
+      <p class="hero-wordmark__founded">Casa fundada en 1959</p>
+      <div class="reference-hero__ornament" aria-hidden="true"><span></span><i></i><span></span></div>
+      <p class="reference-hero__services">
+        <span>Cocina castellana</span><i aria-hidden="true">·</i><span>Celebraciones</span><i aria-hidden="true">·</i><span>Eventos</span>
+      </p>
+      <div class="reference-hero__actions">
+        <a class="hero-action hero-action--primary" href={restaurant.bookingUrl} target="_blank" rel="noreferrer">Reservar mesa <span aria-hidden="true">↗</span></a>
+        <a class="hero-action hero-action--secondary" href="/carta">Ver la carta <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+    <a class="hero-scroll" href="#restaurante" aria-label="Descubrir el restaurante"><span>Descubre</span><i aria-hidden="true"></i></a>
+    <CurvedDivider variant="dark-to-light" />
+  </section>
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+  <section class="reference-section about" id="restaurante">
+    <div class="reference-shell about__grid">
+      <div class="editorial-copy" data-reveal>
+        <p class="reference-eyebrow">Sobre nosotros</p>
+        <h2>Tradición, calidad<br />y un toque moderno</h2>
+        <i class="gold-rule gold-rule--left" aria-hidden="true"></i>
+        <p>Una casa con historia dedicada a la cocina tradicional, al producto bien tratado y al placer de compartir la mesa.</p>
+        <a class="reference-button" href="#historia">Conócenos</a>
+      </div>
+      <figure class="about__media" id="historia" data-reveal>
+        <img src="/1959.png" alt="Placa conmemorativa de Mesón Castellano, casa fundada en 1959" width="936" height="1170" loading="lazy" decoding="async" />
+      </figure>
+    </div>
+  </section>
+
+  <section class="dark-feature dark-feature--food" id="gastronomia">
+    <div class="dark-feature__media" data-reveal><img src="/images/platos/pulpo.png" alt="Pulpo, plato real de la carta de Mesón Castellano" width="1448" height="1086" loading="lazy" decoding="async" /></div>
+    <div class="editorial-copy editorial-copy--light" data-reveal>
+      <p class="reference-eyebrow">Gastronomía</p><h2>Cocina que enamora</h2><i class="gold-rule gold-rule--left" aria-hidden="true"></i>
+      <p>Recetas con memoria, producto cuidado y una carta pensada para disfrutar alrededor de la mesa.</p>
+      <a class="reference-button reference-button--light" href="/carta">Ver carta</a>
+    </div>
+  </section>
+
+  <section class="reference-section events-home" id="eventos">
+    <div class="reference-shell events-home__grid">
+      <div class="editorial-copy" data-reveal>
+        <p class="reference-eyebrow">Eventos</p><h2>Momentos inolvidables</h2><i class="gold-rule gold-rule--left" aria-hidden="true"></i>
+        <p>Bodas, comuniones, bautizos, reuniones de empresa y celebraciones con la cocina de Mesón Castellano.</p>
+        <a class="reference-button" href="/eventos">Descubre nuestros espacios</a>
+      </div>
+      <div class="events-mosaic" data-reveal>
+        <figure class="events-mosaic__main"><img src="/hero.png" alt="Salón real preparado para una celebración" width="1717" height="916" loading="lazy" decoding="async" /></figure>
+        <figure class="events-mosaic__history"><img src="/1959.png" alt="Placa conmemorativa de Mesón Castellano, casa fundada en 1959" width="936" height="1170" loading="lazy" decoding="async" /></figure>
+        <figure><img src="/images/platos/croquetas.png" alt="Croquetas, elaboración real de Mesón Castellano" width="1448" height="1086" loading="lazy" decoding="async" /></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="dark-feature" id="empresas">
+    <div class="dark-feature__media dark-feature__media--ambient" data-reveal><img src="/hero.png" alt="Mesa real preparada en el salón de celebraciones" width="1717" height="916" loading="lazy" decoding="async" /></div>
+    <div class="editorial-copy editorial-copy--light" data-reveal>
+      <p class="reference-eyebrow">Empresas</p><h2>Tu evento,<br />nuestro compromiso</h2><i class="gold-rule gold-rule--left" aria-hidden="true"></i>
+      <p>Reuniones de empresa y celebraciones profesionales acompañadas por la gastronomía de la casa.</p>
+      <a class="reference-button reference-button--light" href="/eventos/empresa">Más información</a>
+    </div>
+  </section>
+
+  <section class="trust-section" id="contacto">
+    <div class="reference-shell trust-section__grid">
+      <div class="editorial-copy" data-reveal><p class="reference-eyebrow">Una casa con historia</p><h2>Desde 1959</h2><p>Reserva tu mesa o consulta tu próxima celebración directamente con nosotros.</p><a class="trust-phone" href={`tel:${restaurant.phoneHref}`}>{restaurant.phoneDisplay}</a><address>{restaurant.address}</address><a class="reference-button" href={`tel:${restaurant.phoneHref}`}>Reservar por teléfono</a></div>
+      <figure data-reveal><img src="/hero.png" alt="Vista panorámica real del salón de Mesón Castellano" width="1717" height="916" loading="lazy" decoding="async" /></figure>
+    </div>
+    <CurvedDivider variant="footer-wave" />
+  </section>
+  <script src="../scripts/animations.ts"></script>
+</BaseLayout>

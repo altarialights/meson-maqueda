@@ -1,0 +1,54 @@
+---
+import Brand from './Brand.astro';
+import { restaurant } from '../data/restaurant';
+interface Props { dark?: boolean }
+const { dark = false } = Astro.props;
+const currentPath = Astro.url.pathname;
+const navigation = [
+  ['/\#restaurante','Restaurante'], ['/eventos','Eventos'], ['/\#empresas','Empresas'],
+  ['/\#historia','Sobre nosotros'], ['/contacto','Contacto']
+];
+const isActive = (href: string) => href.startsWith('/#') ? false : currentPath === href || (href === '/eventos' && currentPath.startsWith('/eventos'));
+---
+<header class:list={['site-header', dark && 'site-header--solid']} data-header>
+  <div class="shell header-inner">
+    <a class="header-wordmark" href="/" aria-label="Mesón Castellano, inicio"><Brand compact /></a>
+    <nav class="desktop-nav" aria-label="Navegación principal">{navigation.map(([href,label]) => <a href={href} class:list={{ 'is-active': isActive(href) }} aria-current={isActive(href) ? 'page' : undefined}>{label}</a>)}</nav>
+    <a class="header-booking" href={restaurant.bookingUrl} target="_blank" rel="noreferrer"><span>Reservar</span><span aria-hidden="true">↗</span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menú"><span></span><span></span></button>
+  </div>
+  <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+    <p class="mobile-menu__label">Mesón Castellano · Desde 1959</p>
+    <nav aria-label="Navegación móvil">{navigation.map(([href,label], index) => <a href={href}><span>{String(index + 1).padStart(2,'0')}</span>{label}</a>)}<a href="/carta"><span>06</span>Carta</a></nav>
+    <div class="mobile-menu__actions"><a href={restaurant.bookingUrl} target="_blank" rel="noreferrer">Reservar mesa <span aria-hidden="true">↗</span></a><a href={`tel:${restaurant.phoneHref}`}>{restaurant.phoneDisplay}</a></div>
+  </div>
+</header>
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const toggle = header?.querySelector<HTMLButtonElement>('.menu-toggle');
+  const menu = header?.querySelector<HTMLElement>('.mobile-menu');
+  const close = () => { toggle?.setAttribute('aria-expanded','false'); toggle?.setAttribute('aria-label','Abrir menú'); menu?.setAttribute('aria-hidden','true'); header?.classList.remove('menu-is-open'); document.body.classList.remove('menu-open'); };
+  toggle?.addEventListener('click', () => { const open = toggle.getAttribute('aria-expanded') !== 'true'; toggle.setAttribute('aria-expanded',String(open)); toggle.setAttribute('aria-label',open ? 'Cerrar menú' : 'Abrir menú'); menu?.setAttribute('aria-hidden',String(!open)); header?.classList.toggle('menu-is-open',open); document.body.classList.toggle('menu-open',open); });
+  menu?.querySelectorAll('a').forEach(link => link.addEventListener('click',close));
+  window.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+  let previousY = window.scrollY;
+  let ticking = false;
+  const update = () => {
+    const currentY = window.scrollY;
+    header?.classList.toggle('is-scrolled', currentY > 24);
+    header?.classList.toggle('is-hidden', currentY > previousY && currentY > 180 && !document.body.classList.contains('menu-open'));
+    previousY = Math.max(currentY, 0);
+    ticking = false;
+  };
+  window.addEventListener('scroll',() => { if (!ticking) { requestAnimationFrame(update); ticking = true; } },{ passive:true }); update();
+  if (window.location.pathname === '/') {
+    const sectionLinks = [...document.querySelectorAll<HTMLAnchorElement>('.desktop-nav a[href^="/#"]')];
+    const sections = sectionLinks.map(link => document.getElementById(link.hash.slice(1))).filter(Boolean) as HTMLElement[];
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter(entry => entry.isIntersecting).sort((a,b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      sectionLinks.forEach(link => link.classList.toggle('is-active', link.hash === `#${visible.target.id}`));
+    }, { rootMargin: '-30% 0px -55%', threshold: [0, .2, .6] });
+    sections.forEach(section => observer.observe(section));
+  }
+</script>

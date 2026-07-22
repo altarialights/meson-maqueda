@@ -1,0 +1,7 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'; import { restaurant } from '../data/restaurant';
+---
+<BaseLayout darkHeader title="Contacto y reservas | Mesón Castellano Maqueda">
+  <section class="page-hero"><div class="shell"><p class="eyebrow">Estamos en Maqueda, Toledo</p><h1>Reserva tu mesa</h1><p>Atención directa por teléfono. Sin formularios ni intermediarios.</p></div></section>
+  <section class="contact-page section"><div class="shell contact-grid"><div><p class="eyebrow">Contacto</p><h2>Será un placer recibirte.</h2><p>Para reservar o resolver cualquier consulta, contacta directamente con el restaurante.</p><a class="phone-display phone-display--dark" href={`tel:${restaurant.phoneHref}`}>{restaurant.phoneDisplay}</a><a class="button button--ink" href={`tel:${restaurant.phoneHref}`}>Llamar ahora</a></div><div class="address-card"><span>01</span><p class="eyebrow">Dirección</p><address>{restaurant.address}</address><a class="text-link" href={restaurant.mapsUrl} target="_blank" rel="noreferrer">Cómo llegar en Google Maps →</a><hr/><p>Reservas</p><p>Consulta por teléfono la disponibilidad y el horario actualizado.</p><a class="button button--gold" href={`tel:${restaurant.phoneHref}`}>Reservar por teléfono</a></div></div></section>
+</BaseLayout>

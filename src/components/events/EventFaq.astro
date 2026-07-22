@@ -1,0 +1,4 @@
+---
+import { eventFaqs } from '../../data/events';
+---
+<section class="event-faq section"><div class="shell faq-grid"><div><p class="eyebrow">Preguntas frecuentes</p><h2>Antes de empezar</h2></div><div>{eventFaqs.map(([question, answer]) => <details><summary>{question}<span>+</span></summary><p>{answer}</p></details>)}</div></div></section>

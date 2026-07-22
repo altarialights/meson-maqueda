@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EventHero from '../../components/events/EventHero.astro';
+import EventGallery from '../../components/events/EventGallery.astro';
+import VentillaSection from '../../components/events/VentillaSection.astro';
+import EventInquiry from '../../components/events/EventInquiry.astro';
+import EventFaq from '../../components/events/EventFaq.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import { eventTypes, ventilla } from '../../data/events';
+---
+<BaseLayout title="Eventos y celebraciones en Maqueda | Mesón Castellano" description="Descubre La Ventilla del Escribano, el espacio de bodas, comuniones, bautizos, celebraciones y eventos de empresa vinculado a Mesón Castellano en Maqueda.">
+  <EventHero eyebrow="La Ventilla del Escribano" title="Celebraciones con carácter propio" intro="Descubre La Ventilla del Escribano, el espacio de bodas y eventos vinculado a Mesón Castellano en Maqueda." fullscreen primaryLabel="Descubrir el espacio" primaryHref="/eventos/la-ventilla-del-escribano" secondaryLabel="Solicitar información" secondaryHref="#consulta" />
+  <section class="events-intro section"><div class="shell events-intro__grid"><SectionHeading eyebrow="Celebrar en Maqueda" title="Un espacio con identidad propia" /><div><p class="dropcap">{ventilla.description}</p><p>Un espacio para bodas, comuniones, bautizos, celebraciones privadas y encuentros de empresa, donde la gastronomía de Mesón Castellano se une a un entorno cuidado y a una atención pensada para cada ocasión.</p></div></div></section>
+  <section class="event-types section section--dark"><div class="shell"><SectionHeading eyebrow="Cada ocasión, su atmósfera" title="¿Qué quieres celebrar?" /><div class="event-type-grid">{eventTypes.map((event, index) => <a href={`/eventos/${event.slug}`} class:list={['event-type-card', `event-type-card--${event.tone}`]} data-reveal><span>{String(index + 1).padStart(2, '0')}</span><div><p>{event.eyebrow}</p><h2>{event.name}</h2><i>Descubrir →</i></div></a>)}</div></div></section>
+  <VentillaSection />
+  <section class="event-philosophy section section--wine"><div class="shell event-philosophy__grid"><div><p class="eyebrow">La cocina de la casa</p><h2>Celebrar también es compartir la mesa.</h2></div><p>La propuesta gastronómica de Mesón Castellano forma parte esencial de La Ventilla del Escribano. Las opciones de menú y las condiciones se consultan de manera personalizada para cada ocasión.</p></div></section>
+  <EventGallery />
+  <EventInquiry />
+  <EventFaq />
+  <section class="event-final section"><div class="shell"><p class="eyebrow">La Ventilla del Escribano</p><h2>Cuéntanos qué quieres celebrar.</h2><div><a class="button button--gold" href="#consulta">Solicitar información</a><a class="button button--ink" href="/eventos/la-ventilla-del-escribano">Descubrir el espacio</a></div></div></section>
+  <script src="../../scripts/animations.ts"></script>
+</BaseLayout>

@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'; import MenuCategory from '../components/MenuCategory.astro'; import { menu } from '../data/menu'; import { restaurant } from '../data/restaurant';
+---
+<BaseLayout darkHeader title="Carta | Mesón Castellano Maqueda" description="Consulta la carta digital de Mesón Castellano Maqueda. Cocina tradicional en Maqueda, Toledo.">
+  <section class="page-hero"><div class="shell"><p class="eyebrow">Mesón Castellano · Desde 1959</p><h1>Nuestra carta</h1><p>Cocina de siempre, producto cuidado y sabores pensados para compartir.</p></div></section>
+  <nav class="category-nav" aria-label="Categorías de la carta"><div class="shell">{menu.map((category) => <a href={`#${category.id}`}>{category.name}</a>)}</div></nav>
+  <div class="menu-page shell"><aside><p class="eyebrow">Categorías</p>{menu.map((category) => <a href={`#${category.id}`}>{category.name}</a>)}</aside><div class="menu-content">{menu.map((category) => <MenuCategory category={category} />)}<div class="menu-notice"><strong>Información alimentaria</strong><p>Consulta con nuestro equipo cualquier duda sobre alérgenos, intolerancias o posibles adaptaciones antes de realizar tu pedido.</p></div></div></div>
+  <section class="menu-cta"><div class="shell"><p class="eyebrow">Reserva</p><h2>¿Te apetece compartir mesa?</h2><a class="button button--gold" href={`tel:${restaurant.phoneHref}`}>Llamar al {restaurant.phoneDisplay}</a></div></section>
+</BaseLayout>

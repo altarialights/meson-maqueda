@@ -1,0 +1,7 @@
+---
+interface Props { compact?: boolean; light?: boolean; }
+const { compact = false, light = true } = Astro.props;
+---
+<span class:list={['brand', compact && 'brand--compact', !light && 'brand--dark']}>
+  <img src="/images/logo/meson-castellano-logo.png" width="1083" height="236" alt="Mesón Castellano — Casa fundada en 1959" loading={compact ? 'eager' : 'lazy'} decoding="async" />
+</span>

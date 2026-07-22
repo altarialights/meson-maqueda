@@ -1,0 +1,12 @@
+---
+interface Props { light?: boolean; title?: string; }
+const { light = false, title = 'Una celebración se entiende mejor cuando se vive.' } = Astro.props;
+---
+<section class:list={['event-gallery', light && 'event-gallery--light']} aria-label="Galería de celebraciones">
+  <div class="shell event-gallery__grid" data-reveal>
+    <div class="event-photo event-photo--wide"><span>Ambiente</span></div>
+    <div class="event-photo event-photo--portrait"><span>La mesa</span></div>
+    <div class="event-gallery__copy"><p class="eyebrow">La Ventilla del Escribano</p><h2>{title}</h2><p>La galería incorporará próximamente fotografías originales del espacio y sus celebraciones.</p><!-- TODO(events-assets): sustituir los fondos editoriales por fotografías originales autorizadas. --></div>
+    <div class="event-photo event-photo--detail"><span>Los detalles</span></div>
+  </div>
+</section>

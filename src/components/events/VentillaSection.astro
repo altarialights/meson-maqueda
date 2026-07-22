@@ -1,0 +1,12 @@
+---
+import SectionHeading from '../SectionHeading.astro';
+import { ventilla } from '../../data/events';
+interface Props { compact?: boolean; }
+const { compact = false } = Astro.props;
+---
+<section class:list={['ventilla-section section', compact && 'ventilla-section--compact']} id="la-ventilla">
+  <div class="shell ventilla-grid">
+    <div class="ventilla-visual" data-reveal aria-label="Espacio reservado para una fotografía original de La Ventilla del Escribano"><span>LVE</span><small>Maqueda · Toledo</small></div>
+    <div><SectionHeading eyebrow="El espacio" title={ventilla.name} intro={ventilla.description} /><p>{ventilla.relationship}</p><div class="ventilla-actions"><a class="button button--ink" href="/eventos/la-ventilla-del-escribano">Conocer La Ventilla</a></div></div>
+  </div>
+</section>

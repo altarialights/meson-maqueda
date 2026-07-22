@@ -1,0 +1,14 @@
+---
+interface Props { eyebrow: string; title: string; intro: string; tone?: string; fullscreen?: boolean; primaryLabel?: string; primaryHref?: string; secondaryLabel?: string; secondaryHref?: string; }
+const { eyebrow, title, intro, tone = 'dark', fullscreen = false, primaryLabel = 'Solicitar información', primaryHref = '#consulta', secondaryLabel = 'Descubrir el espacio', secondaryHref = '/eventos/la-ventilla-del-escribano' } = Astro.props;
+---
+<section class:list={['event-hero', `event-hero--${tone}`, fullscreen && 'event-hero--fullscreen']}>
+  <img class="event-hero__image" src="/hero.png" alt="" width="1717" height="916" fetchpriority="high" decoding="async" aria-hidden="true" />
+  <div class="event-hero__shade" aria-hidden="true"></div>
+  <div class="event-hero__lines" aria-hidden="true"></div>
+  <div class="shell event-hero__content" data-hero>
+    <p class="eyebrow">{eyebrow}</p><h1>{title}</h1><p>{intro}</p>
+    <div class="event-hero__actions"><a class="button button--gold" href={primaryHref}>{primaryLabel}</a><a class="button button--ghost" href={secondaryHref}>{secondaryLabel}</a></div>
+  </div>
+  <span class="event-hero__note">Celebraciones · Maqueda</span>
+</section>

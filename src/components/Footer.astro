@@ -1,0 +1,14 @@
+---
+import Brand from './Brand.astro';
+import { restaurant } from '../data/restaurant';
+---
+<footer class="footer">
+  <div class="shell footer-grid">
+    <div class="footer-brand"><a href="/" aria-label="Inicio"><Brand compact /></a><p>Casa fundada en 1959</p></div>
+    <div><p class="reference-eyebrow">Información</p><address>{restaurant.address}</address><a href={`tel:${restaurant.phoneHref}`}>{restaurant.phoneDisplay}</a><a href={`tel:${restaurant.phoneHref}`}>Reservas por teléfono</a></div>
+    <div><p class="reference-eyebrow">Enlaces</p><nav aria-label="Pie de página"><a href="/carta">Carta</a><a href="/eventos">Eventos</a><a href="/eventos/empresa">Empresas</a><a href="/contacto">Contacto</a></nav></div>
+    <div><p class="reference-eyebrow">Legal</p><nav><a href="/legal/aviso-legal">Aviso legal</a><a href="/legal/privacidad">Privacidad</a><a href="/legal/cookies">Cookies</a></nav></div>
+  </div>
+  <div class="shell footer-bottom"><span>© {new Date().getFullYear()} {restaurant.shortName}</span><span>Web desarrollada por <span class="altaria">Altaria Lights</span></span></div>
+</footer>
+
