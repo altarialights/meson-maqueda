@@ -27,6 +27,7 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         .from('.reference-hero__services > *', { opacity: 0, y: 7, duration: 0.42, stagger: 0.045 }, 2.36)
         .from('.reference-hero__actions > *', { opacity: 0, y: 8, duration: 0.42, stagger: 0.06 }, 2.46)
         .from('.hero-scroll', { opacity: 0, y: -5, duration: 0.38 }, 2.68);
+      if (window.matchMedia('(max-width: 600px)').matches) heroTimeline.timeScale(1.28);
     } else {
     heroTimeline
       .from('.site-header .header-inner', { opacity: 0, y: -12, duration: 0.65 })

@@ -14,23 +14,71 @@ const isActive = (href: string) => href.startsWith('/#') ? false : currentPath =
   <div class="shell header-inner">
     <a class="header-wordmark" href="/" aria-label="Mesón Castellano, inicio"><Brand compact /></a>
     <nav class="desktop-nav" aria-label="Navegación principal">{navigation.map(([href,label]) => <a href={href} class:list={{ 'is-active': isActive(href) }} aria-current={isActive(href) ? 'page' : undefined}>{label}</a>)}</nav>
-    <a class="header-booking" href={restaurant.bookingUrl} target="_blank" rel="noreferrer"><span>Reservar</span><span aria-hidden="true">↗</span></a>
+    <a class="header-booking" href={restaurant.bookingUrl} target="_blank" rel="noreferrer"><span>Reservar</span></a>
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menú"><span></span><span></span></button>
   </div>
-  <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+  <div id="mobile-menu" class="mobile-menu" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Menú de navegación">
     <p class="mobile-menu__label">Mesón Castellano · Desde 1959</p>
-    <nav aria-label="Navegación móvil">{navigation.map(([href,label], index) => <a href={href}><span>{String(index + 1).padStart(2,'0')}</span>{label}</a>)}<a href="/carta"><span>06</span>Carta</a></nav>
-    <div class="mobile-menu__actions"><a href={restaurant.bookingUrl} target="_blank" rel="noreferrer">Reservar mesa <span aria-hidden="true">↗</span></a><a href={`tel:${restaurant.phoneHref}`}>{restaurant.phoneDisplay}</a></div>
+    <nav aria-label="Navegación móvil">{navigation.map(([href,label], index) => <a href={href} class:list={{ 'is-active': isActive(href) }} aria-current={isActive(href) ? 'page' : undefined}><span>{String(index + 1).padStart(2,'0')}</span>{label}</a>)}<a href="/carta" class:list={{ 'is-active': currentPath === '/carta' }} aria-current={currentPath === '/carta' ? 'page' : undefined}><span>06</span>Carta</a></nav>
+    <div class="mobile-menu__actions"><a href={restaurant.bookingUrl} target="_blank" rel="noreferrer">Reservar mesa</a><a href={`tel:${restaurant.phoneHref}`}>{restaurant.phoneDisplay}</a></div>
   </div>
+  <button class="mobile-menu-overlay" type="button" aria-label="Cerrar menú" aria-hidden="true" tabindex="-1"></button>
 </header>
 <script>
   const header = document.querySelector<HTMLElement>('[data-header]');
   const toggle = header?.querySelector<HTMLButtonElement>('.menu-toggle');
   const menu = header?.querySelector<HTMLElement>('.mobile-menu');
-  const close = () => { toggle?.setAttribute('aria-expanded','false'); toggle?.setAttribute('aria-label','Abrir menú'); menu?.setAttribute('aria-hidden','true'); header?.classList.remove('menu-is-open'); document.body.classList.remove('menu-open'); };
-  toggle?.addEventListener('click', () => { const open = toggle.getAttribute('aria-expanded') !== 'true'; toggle.setAttribute('aria-expanded',String(open)); toggle.setAttribute('aria-label',open ? 'Cerrar menú' : 'Abrir menú'); menu?.setAttribute('aria-hidden',String(!open)); header?.classList.toggle('menu-is-open',open); document.body.classList.toggle('menu-open',open); });
-  menu?.querySelectorAll('a').forEach(link => link.addEventListener('click',close));
-  window.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+  const overlay = header?.querySelector<HTMLButtonElement>('.mobile-menu-overlay');
+  let lockedScrollY = 0;
+  const lockPage = () => {
+    lockedScrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${lockedScrollY}px`;
+    document.body.style.width = '100%';
+    document.body.classList.add('menu-open');
+  };
+  const unlockPage = () => {
+    document.body.classList.remove('menu-open');
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    window.scrollTo(0, lockedScrollY);
+  };
+  const close = (restoreFocus = true) => {
+    if (toggle?.getAttribute('aria-expanded') !== 'true') return;
+    toggle.setAttribute('aria-expanded','false');
+    toggle.setAttribute('aria-label','Abrir menú');
+    menu?.setAttribute('aria-hidden','true');
+    overlay?.setAttribute('aria-hidden','true');
+    header?.classList.remove('menu-is-open');
+    unlockPage();
+    if (restoreFocus) toggle.focus({ preventScroll: true });
+  };
+  const open = () => {
+    if (!toggle || !menu || toggle.getAttribute('aria-expanded') === 'true') return;
+    toggle.setAttribute('aria-expanded','true');
+    toggle.setAttribute('aria-label','Cerrar menú');
+    menu.setAttribute('aria-hidden','false');
+    overlay?.setAttribute('aria-hidden','false');
+    header?.classList.add('menu-is-open');
+    lockPage();
+    window.setTimeout(() => menu.querySelector<HTMLAnchorElement>('nav a')?.focus({ preventScroll: true }), 180);
+  };
+  toggle?.addEventListener('click', () => toggle.getAttribute('aria-expanded') === 'true' ? close() : open());
+  overlay?.addEventListener('click', () => close());
+  menu?.querySelectorAll('a').forEach(link => link.addEventListener('click',() => close(false)));
+  window.addEventListener('keydown', e => {
+    if (e.key === 'Escape') close();
+    if (e.key !== 'Tab' || menu?.getAttribute('aria-hidden') !== 'false') return;
+    const focusable = [...(menu?.querySelectorAll<HTMLElement>('a, button, [tabindex]:not([tabindex="-1"])') ?? [])];
+    if (!focusable.length) return;
+    const first = focusable[0]; const last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+  const desktopBreakpoint = window.matchMedia('(min-width: 701px)');
+  desktopBreakpoint.addEventListener('change', event => { if (event.matches) close(false); });
+  window.addEventListener('pagehide', () => close(false));
   let previousY = window.scrollY;
   let ticking = false;
   const update = () => {
